@@ -19,7 +19,8 @@ def upload_file(upload_path, week_number):
     for pdf_file in file_list:
         # 进入反馈信息页面
         driver.find_element(By.ID, "Menu1_Hyperlink1").click()
-        g = str(int(int(week_number) / 2 + 1))
+        # g = str(int(int(week_number) / 2 + 1))
+        g = str(int(Info["homework_number"]) + 1)
         week_id = f"Menures1_MyList__ctl{g}_rb"
         driver.find_element(By.ID, week_id).click()
         student_name = pdf_file.replace(".pdf", "")
@@ -70,6 +71,12 @@ for data in login_data.keys():
 driver.find_element(By.ID, "login1_user_1").click()     # TA
 search_box.send_keys(Keys.RETURN)
 
-upload_file(work_path, Info["week_number"])
+dec = input("上传前请确认作业已批改完成，并且格式正确。输入 y 上传，输入 n 退出\n")
+while True:
+    if dec == "y":
+        upload_file(work_path, Info["week_number"])
+    elif dec == "n":
+        break
+    print("请重新输入")
 time.sleep(3)
 driver.quit()
