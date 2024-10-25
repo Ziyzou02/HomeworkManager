@@ -30,7 +30,7 @@ def upload_file(upload_path, week_number):
         driver.find_element(By.ID, "Menures1_ImageButton1").click()
         # 反馈内容
         textarea = driver.find_element(By.ID, 'Menures1_txtDescription')
-        textarea.send_keys('不好意思，刚才发成第二周的了')
+        textarea.send_keys('详情查看附件')
         # 上传文件
         file_input = driver.find_element(By.ID, 'Menures1_AttachFile')
         path = '.\\homework\\' + week_number
