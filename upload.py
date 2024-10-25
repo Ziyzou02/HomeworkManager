@@ -30,14 +30,21 @@ def upload_file(upload_path, week_number):
         driver.find_element(By.ID, "Menures1_ImageButton1").click()
         # 反馈内容
         textarea = driver.find_element(By.ID, 'Menures1_txtDescription')
-        textarea.send_keys('请查看附件')
+        textarea.send_keys('不好意思，刚才发成第二周的了')
         # 上传文件
         file_input = driver.find_element(By.ID, 'Menures1_AttachFile')
-        pdf_path = os.path.normpath(os.path.join(os.getcwd(), work_path, pdf_file))
+        path = '.\\homework\\' + week_number
+        if pdf_file.startswith(week_number):
+            os.rename(os.path.join(path, pdf_file), os.path.join(path, week_number + '-' + pdf_file))
+            path = os.path.join(path,  week_number + '-' + pdf_file)
+        else:
+            path = os.path.join(path, pdf_file)
+        pdf_path = os.path.normpath(os.path.join(os.getcwd(), path))
         file_input.send_keys(pdf_path)
         # 提交文件
+        print(pdf_path)
         submit_button = driver.find_element(By.ID, 'Menures1_btnUpload')
-        submit_button.click()
+        # submit_button.click()
 
     print(file_list)
 
@@ -71,12 +78,13 @@ for data in login_data.keys():
 driver.find_element(By.ID, "login1_user_1").click()     # TA
 search_box.send_keys(Keys.RETURN)
 
-dec = input("上传前请确认作业已批改完成，并且格式正确。输入 y 上传，输入 n 退出\n")
+dec = input("上传前请确认作业已批改完成，并且格式正确，注意修改Info文件。输入 y 上传，输入 n 退出\n")
 while True:
     if dec == "y":
         upload_file(work_path, Info["week_number"])
     elif dec == "n":
         break
-    print("请重新输入")
+    else:
+        print("请重新输入")
 time.sleep(3)
 driver.quit()
